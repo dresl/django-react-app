@@ -5,3 +5,6 @@ help:
 
 run:
 	python manage.py runserver
+
+build_assets:
+	npm run build-assets

@@ -32,13 +32,14 @@ ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'channels',
+    'chat',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'chat',
+    'webpack_loader'
 ]
 
 MIDDLEWARE = [
@@ -128,8 +129,24 @@ USE_L10N = True
 USE_TZ = True
 
 
+# webpack
+
+WEBPACK_LOADER = {
+    "DEFAULT": {
+        "CACHE": not DEBUG,
+        "BUNDLE_DIR_NAME": "assets/",
+        "STATS_FILE": os.path.join(BASE_DIR, "webpack-bundle.json"),
+        "POLL_INTERVAL": 0.1,
+        "IGNORE": [r".+\.hot-update\.js", r".+\.map"],
+    }
+}
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'assets'),
+)
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
