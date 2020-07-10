@@ -1,3 +1,5 @@
+const autoprefixer = require('autoprefixer');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var path = require('path');
 var webpack = require('webpack');
 var BundleTracker = require('webpack-bundle-tracker');
@@ -8,7 +10,7 @@ module.exports = {
     output: {
         path: path.resolve('./assets/assets'),
         filename: "[name]-[hash].js"
-    },    
+    },
     module: {
         rules: [
             {
@@ -16,10 +18,17 @@ module.exports = {
                 exclude: /node_modules/,
                 loader: 'babel-loader'
             },
+            {
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader'],
+            },
         ]
     },
     plugins: [
-        new BundleTracker({filename: './webpack-bundle.json'})
+        new BundleTracker({ filename: './webpack-bundle.json' })
     ],
+    performance: {
+        hints: false
+    },
     devtool: 'sourceMap'
 }

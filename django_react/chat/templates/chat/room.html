@@ -6,6 +6,7 @@
 <head>
     <meta charset="utf-8"/>
     <title>Chat Room</title>
+    {% render_bundle 'main' 'css' %}
 </head>
 <body>
     <h1>{{ room.name }}</h1>
@@ -56,5 +57,5 @@
         messageInputDom.value = '';
     };
 </script>
-{% render_bundle 'main' %}
+{% render_bundle 'main' 'js' %}
 </html>

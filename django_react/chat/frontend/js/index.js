@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from 'react-dom';
-import Button from './components/Button';
+import { Button, DatePicker, version } from "antd";
+import "antd/dist/antd.css";
 
 const e = React.createElement;
 
@@ -17,8 +18,10 @@ class LikeButton extends React.Component {
 
     return (
       <React.Fragment>
-        <button onClick={() => this.setState({ liked: true })}>Like</button>
-        <Button></Button>
+        <Button onClick={() => this.setState({ liked: true })} type="ghost">
+          Primary Button
+        </Button>
+        <DatePicker />
       </React.Fragment>
 
     );
