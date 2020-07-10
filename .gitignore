@@ -1,3 +1,5 @@
+venv
+.vscode
 *.pyc
 static
 db.sqlite3

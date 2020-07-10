@@ -1,8 +1,9 @@
-from asgiref.sync import async_to_sync, sync_to_async
-from channels.db import database_sync_to_async
-
-from channels.generic.websocket import WebsocketConsumer, AsyncWebsocketConsumer
 import json
+from asgiref.sync import async_to_sync, sync_to_async
+
+from channels.db import database_sync_to_async
+from channels.generic.websocket import WebsocketConsumer, AsyncWebsocketConsumer
+
 from django.contrib.auth.models import User
 from .models import ChatGroup, ChatMessage
 
