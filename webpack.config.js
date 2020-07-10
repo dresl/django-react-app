@@ -4,7 +4,7 @@ var BundleTracker = require('webpack-bundle-tracker');
 
 module.exports = {
     context: __dirname,
-    entry: './chat/frontend/js/index.js',
+    entry: './django_react/chat/frontend/js/index.js',
     output: {
         path: path.resolve('./assets/assets'),
         filename: "[name]-[hash].js"

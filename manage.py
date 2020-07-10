@@ -2,10 +2,13 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from os.path import join
 
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rewiza.settings')
+    base_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'django_react')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_react.settings')
+    sys.path.append(join(base_dir))
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
