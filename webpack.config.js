@@ -27,8 +27,5 @@ module.exports = {
     plugins: [
         new BundleTracker({ filename: './webpack-bundle.json' })
     ],
-    performance: {
-        hints: false
-    },
     devtool: 'sourceMap'
 }
