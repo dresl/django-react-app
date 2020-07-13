@@ -4,7 +4,7 @@ help:
 	@echo "Django chat app - help"
 
 run:
-	python manage.py runserver
+	. venv/bin/activate && ./venv/bin/python manage.py runserver
 
 build_assets:
 	rm assets/assets/*
