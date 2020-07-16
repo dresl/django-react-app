@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 import { Layout, Menu, Breadcrumb } from 'antd';
-import { Link } from 'react-router-dom';
 import ChatList from './chat/ChatList'
-
+import {
+  Switch,
+  Route,
+  NavLink,
+  Link,
+  useRouteMatch,
+  useParams
+} from "react-router-dom";
+import Item from 'antd/lib/list/Item';
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
@@ -13,8 +20,8 @@ function App(props) {
       <Header className="header">
         <div className="logo" />
         <Menu theme="dark" mode="horizontal">
-          <Menu.Item key="home"><Link to="/">Home</Link></Menu.Item>
-          <Menu.Item key="chat"><Link to="/chat">Chat</Link></Menu.Item>
+          <Menu.Item key='home'><NavLink exact={true} activeClassName="is-active" to="/">Home</NavLink></Menu.Item>
+          <Menu.Item key='chat'><NavLink activeClassName="is-active" to="/chat">Chat</NavLink></Menu.Item>
         </Menu>
       </Header>
       <Layout>

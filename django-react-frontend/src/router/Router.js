@@ -2,6 +2,7 @@ import React from "react";
 import {
   Switch,
   Route,
+  NavLink,
   Link,
   useRouteMatch,
   useParams
@@ -13,19 +14,16 @@ import App from '../App';
 class BaseRouter extends React.Component {
   
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   componentDidMount() {
   }
 
-  NoMatchPage = () => {
-    let match = window.location.pathname
-    return <App content={<h1>404 {match}</h1>}/>;
-  };
+  NoMatchPage = () => <App content={<h1>404 {window.location.pathname}</h1>}/>
 
-  render() {
-    return (
+  render = () =>
+    (
       <React.Fragment>
         <Switch>
           <Route exact path='/'>
@@ -38,11 +36,11 @@ class BaseRouter extends React.Component {
         </Switch>
       </React.Fragment>
     )
-  }
 }
 
+
 function ChatRoomRoutes() {
-  let match = useRouteMatch();
+  const match = useRouteMatch();
 
   return (
     <Switch>

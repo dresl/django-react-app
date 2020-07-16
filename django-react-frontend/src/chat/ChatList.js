@@ -9,6 +9,7 @@ import {
   useParams
 } from "react-router-dom";
 import ChatDetail from './ChatDetail';
+import fetchJson from '../remote';
 
 
 class ChatList extends React.Component {
@@ -16,16 +17,8 @@ class ChatList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      loaded: false,
-      rooms: []
-    }
-  }
-
-  // Before the component mounts, we initialise our state
-  componentWillMount = () => {
-    this.setState({
       loaded: false
-    })
+    }
   }
 
   // After the component did mount, we set the state each second.
@@ -33,22 +26,17 @@ class ChatList extends React.Component {
     this.fetchRooms();
   }
 
-  async fetchRooms() {
-    await fetch(`${Constants.BACKEND_URL}/api/v2/chat-group/`)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          rooms: data,
-          loaded: true
-        })
-      })
+  fetchRooms = async() => {
+    this.setState({
+      rooms: await fetchJson('/api/v2/chat-group/'),
+      loaded: true
+    })
   }
 
   getRoomList = () => {
-    const rooms = []
-    this.state.rooms.forEach((el, index) => rooms.push(
+    const rooms = this.state.rooms.map((el, index) =>
       <Menu.Item key={index}><Link to={'/chat/' + el.id}>{el.name}</Link></Menu.Item>
-    ))
+    )
 
     return (
       <Menu
