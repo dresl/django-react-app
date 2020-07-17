@@ -7,6 +7,7 @@ import {
   useRouteMatch,
   useParams
 } from "react-router-dom";
+import Home from '../home/Home';
 import ChatList from '../chat/ChatList';
 import ChatDetail from '../chat/ChatDetail';
 import { Spin } from 'antd';
@@ -29,7 +30,7 @@ class BaseRouter extends React.Component {
       <React.Fragment>
         <Suspense fallback={<Spin size='large' className='page-loader'/>}>
           <Switch>
-            <Route exact path='/' component={() => <AppLazy sideMenu={<React.Fragment/>} content={<h1>Hello react app!</h1>}/>}/>
+            <Route exact path='/' component={() => <AppLazy sideMenu={<React.Fragment/>} content={<Home/>}/>}/>
             <Route path='/chat' component={() => <AppLazy sideMenu={<ChatList/>} content={<ChatRoomRoutes/>}/>}/>
             <Route path='*' component={this.NoMatchPage} />
           </Switch>
