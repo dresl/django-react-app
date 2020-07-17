@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense, lazy } from 'react';
 import {
   Switch,
   Route,
@@ -9,7 +9,9 @@ import {
 } from "react-router-dom";
 import ChatList from '../chat/ChatList';
 import ChatDetail from '../chat/ChatDetail';
-import App from '../App';
+import { Spin } from 'antd';
+
+const AppLazy = lazy(() => import('../App'))
 
 class BaseRouter extends React.Component {
   
@@ -20,20 +22,18 @@ class BaseRouter extends React.Component {
   componentDidMount() {
   }
 
-  NoMatchPage = () => <App content={<h1>404 {window.location.pathname}</h1>}/>
+  NoMatchPage = () => <AppLazy content={<h1>404 {window.location.pathname}</h1>}/>
 
   render = () =>
     (
       <React.Fragment>
-        <Switch>
-          <Route exact path='/'>
-            <App sideMenu={<React.Fragment/>} content={<h1>Hello react app!</h1>}/>
-          </Route>
-          <Route path='/chat'>
-            <App sideMenu={<ChatList/>} content={<ChatRoomRoutes/>}/>
-          </Route>
-          <Route path='*' component={this.NoMatchPage} />
-        </Switch>
+        <Suspense fallback={<Spin size='large' className='page-loader'/>}>
+          <Switch>
+            <Route exact path='/' component={() => <AppLazy sideMenu={<React.Fragment/>} content={<h1>Hello react app!</h1>}/>}/>
+            <Route path='/chat' component={() => <AppLazy sideMenu={<ChatList/>} content={<ChatRoomRoutes/>}/>}/>
+            <Route path='*' component={this.NoMatchPage} />
+          </Switch>
+        </Suspense>
       </React.Fragment>
     )
 }
@@ -47,9 +47,7 @@ function ChatRoomRoutes() {
       <Route exact path={`${match.path}`}>
         <h3>Select chat room</h3>
       </Route>
-      <Route path={`${match.path}/:roomId`}>
-        <ChatDetail/>
-      </Route>
+      <Route path={`${match.path}/:roomId`} component={ChatDetail}/>
     </Switch>
   )
 }
