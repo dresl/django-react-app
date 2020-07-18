@@ -1,9 +1,8 @@
 import React from 'react'
 import fetchJson from '../../remote'
 import BaseRouter from '../../router/Router'
-import Component from '../../base/Component'
 
-class AuthenticationService extends Component {
+class AuthenticationService extends React.Component {
 
   constructor(props) {
     super(props)
@@ -53,10 +52,6 @@ class AuthenticationService extends Component {
         });
       });
   };
-
-  componentWillUnmount() {
-    this.setState = (_,__) => console.log
-  }
 
   componentDidMount = async () => {
     if (this.state.loggedIn) {

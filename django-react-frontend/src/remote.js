@@ -1,6 +1,5 @@
 import Constants from './constants'
 
-
 /**
  * Wrapper over javascript fetch function
 */
