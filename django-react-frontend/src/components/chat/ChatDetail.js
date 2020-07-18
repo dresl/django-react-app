@@ -1,6 +1,6 @@
-import React from "react";
-import { withRouter } from "react-router-dom";
-import fetchJson from '../../remote';
+import React from "react"
+import { withRouter } from "react-router-dom"
+import fetchJson from '../../remote'
 
 class ChatDetail extends React.Component {
   
@@ -46,4 +46,4 @@ class ChatDetail extends React.Component {
   }
 }
 
-export default withRouter(ChatDetail);
+export default withRouter(ChatDetail)

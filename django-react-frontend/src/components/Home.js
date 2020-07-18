@@ -1,7 +1,7 @@
-import React from "react";
-import { Button, Spin, Divider } from "antd";
-import fetchJson from '../remote';
-import { CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons';
+import React from "react"
+import { Button, Spin, Divider } from "antd"
+import fetchJson from '../remote'
+import { CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons'
 
 const IconStyles = {
     fontSize: '17px',
@@ -33,10 +33,12 @@ class Home extends React.Component {
         await this.fetchSensorData()
     }
 
-    getOnOffIcon = state => {return {
-        on: <CheckCircleTwoTone style={IconStyles} twoToneColor="#52c41a"/>,
-        off: <CloseCircleTwoTone style={IconStyles} twoToneColor="red"/>
-    }[state] ?? null}
+    getOnOffIcon = state => {
+        return {
+            on: <CheckCircleTwoTone style={IconStyles} twoToneColor="#52c41a"/>,
+            off: <CloseCircleTwoTone style={IconStyles} twoToneColor="red"/>
+        }[state] ?? null
+    }
 
     render = () => {
         return (
@@ -50,4 +52,4 @@ class Home extends React.Component {
     }
 }
 
-export default Home;
+export default Home

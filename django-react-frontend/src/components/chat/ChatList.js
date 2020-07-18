@@ -1,7 +1,7 @@
-import React from 'react';
-import { Spin, Menu } from 'antd';
-import { Link } from "react-router-dom";
-import fetchJson from '../../remote';
+import React from 'react'
+import { Spin, Menu } from 'antd'
+import { Link } from "react-router-dom"
+import fetchJson from '../../remote'
 
 
 class ChatList extends React.Component {
@@ -52,4 +52,4 @@ class ChatList extends React.Component {
   }
 }
 
-export default ChatList;
+export default ChatList

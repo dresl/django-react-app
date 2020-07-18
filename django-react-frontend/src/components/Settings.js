@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, Divider, Input, Form, Typography } from "antd";
+import React from "react"
+import { Button, Divider, Input, Form, Typography } from "antd"
 
 const layout = {
     labelCol: { span: 3 },
@@ -66,4 +66,4 @@ class Settings extends React.Component {
     }
 }
 
-export default Settings;
+export default Settings

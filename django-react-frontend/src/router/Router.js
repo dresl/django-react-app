@@ -1,14 +1,14 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy } from 'react'
 import {
   Switch,
   Route,
   useRouteMatch
-} from "react-router-dom";
-import { Spin } from 'antd';
-import Home from '../components/Home';
-import ChatList from '../components/chat/ChatList';
-import ChatDetail from '../components/chat/ChatDetail';
-import Settings from '../components/Settings';
+} from "react-router-dom"
+import { Spin } from 'antd'
+import Home from '../components/Home'
+import ChatList from '../components/chat/ChatList'
+import ChatDetail from '../components/chat/ChatDetail'
+import Settings from '../components/Settings'
 
 const AppLazy = lazy(() => import('../App'))
 
@@ -47,4 +47,4 @@ function ChatRoomRoutes() {
   )
 }
 
-export default BaseRouter;
+export default BaseRouter
