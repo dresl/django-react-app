@@ -7,8 +7,7 @@ import {
   useParams,
   withRouter
 } from "react-router-dom";
-import Constants from '../constants';
-import { Button, Spin } from "antd";
+import { Button, Spin, Divider } from "antd";
 import fetchJson from '../remote';
 
 class Home extends React.Component {
@@ -25,7 +24,7 @@ class Home extends React.Component {
         })
         this.setState({
             lowTarifSensorState: await fetchJson('/api/states/binary_sensor.nocni_proud_2', 'http://hass:8123', 'GET', {
-                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI1NzFmYTFmNDhkODE0NTgxODlhYTBhMmVkMmU1YWI0ZiIsImlhdCI6MTU5NDk5MTM3NSwiZXhwIjoxOTEwMzUxMzc1fQ.rRcu6pJ_wyy9bfyfvp0gsOOWNdg1iKBCM7uXqjnj4PE'
+                'Authorization': 'Bearer ' + localStorage.getItem('hass-token')
             })
         })
     }
@@ -37,8 +36,9 @@ class Home extends React.Component {
     render = () => {
         return (
             <React.Fragment>
-                <h1>Hello from home!</h1>
-                <p>Low tarif sensor state: {this.state.lowTarifSensorState?.state ?? <Spin/>}</p>
+                <h2>Django React App</h2>
+                <span>Low tarif sensor state: {this.state.lowTarifSensorState?.state ?? <Spin/>}</span>
+                <Divider style={{margin: 10}}/>
                 <Button onClick={this.fetchSensorData}>Refresh</Button>
             </React.Fragment>
         )
@@ -46,5 +46,3 @@ class Home extends React.Component {
 }
 
 export default Home;
-
-// curl -X GET   http://hass:8123/api/states/binary_sensor.nocni_proud_2   -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI1NzFmYTFmNDhkODE0NTgxODlhYTBhMmVkMmU1YWI0ZiIsImlhdCI6MTU5NDk5MTM3NSwiZXhwIjoxOTEwMzUxMzc1fQ.rRcu6pJ_wyy9bfyfvp0gsOOWNdg1iKBCM7uXqjnj4PE'

@@ -7,9 +7,8 @@ import {
   useParams,
   withRouter
 } from "react-router-dom";
-import Constants from '../constants';
 import { Button } from "antd";
-import fetchJson from '../remote';
+import fetchJson from '../../remote';
 
 class ChatDetail extends React.Component {
   

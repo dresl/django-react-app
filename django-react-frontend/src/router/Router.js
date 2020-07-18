@@ -7,10 +7,11 @@ import {
   useRouteMatch,
   useParams
 } from "react-router-dom";
-import Home from '../home/Home';
-import ChatList from '../chat/ChatList';
-import ChatDetail from '../chat/ChatDetail';
 import { Spin } from 'antd';
+import Home from '../components/Home';
+import ChatList from '../components/chat/ChatList';
+import ChatDetail from '../components/chat/ChatDetail';
+import Settings from '../components/Settings';
 
 const AppLazy = lazy(() => import('../App'))
 
@@ -32,6 +33,7 @@ class BaseRouter extends React.Component {
           <Switch>
             <Route exact path='/' component={() => <AppLazy sideMenu={<React.Fragment/>} content={<Home/>}/>}/>
             <Route path='/chat' component={() => <AppLazy sideMenu={<ChatList/>} content={<ChatRoomRoutes/>}/>}/>
+            <Route path='/settings' component={() => <AppLazy sideMenu={<React.Fragment/>} content={<Settings/>}/>}/>
             <Route path='*' component={this.NoMatchPage} />
           </Switch>
         </Suspense>
@@ -39,14 +41,13 @@ class BaseRouter extends React.Component {
     )
 }
 
-
 function ChatRoomRoutes() {
   const match = useRouteMatch();
 
   return (
     <Switch>
       <Route exact path={`${match.path}`}>
-        <h3>Select chat room</h3>
+        <h2>Select chat room</h2>
       </Route>
       <Route path={`${match.path}/:roomId`} component={ChatDetail}/>
     </Switch>

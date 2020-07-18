@@ -1,6 +1,6 @@
 import React from 'react';
 import { Spin, Menu } from 'antd';
-import Constants from '../constants';
+import Constants from '../../constants';
 import {
   Switch,
   Route,
@@ -9,7 +9,7 @@ import {
   useParams
 } from "react-router-dom";
 import ChatDetail from './ChatDetail';
-import fetchJson from '../remote';
+import fetchJson from '../../remote';
 
 
 class ChatList extends React.Component {

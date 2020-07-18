@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 import { Layout, Menu, Breadcrumb } from 'antd';
-import ChatList from './chat/ChatList'
+import ChatList from './components/chat/ChatList'
 import {
   Switch,
   Route,
@@ -22,6 +22,7 @@ function App(props) {
         <Menu theme="dark" mode="horizontal">
           <Menu.Item key='home'><NavLink exact={true} activeClassName="is-active" to="/">Home</NavLink></Menu.Item>
           <Menu.Item key='chat'><NavLink activeClassName="is-active" to="/chat">Chat</NavLink></Menu.Item>
+          <Menu.Item key='settings'><NavLink activeClassName="is-active" to="/settings">Settings</NavLink></Menu.Item>
         </Menu>
       </Header>
       <Layout>
