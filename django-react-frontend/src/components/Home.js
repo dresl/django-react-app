@@ -22,9 +22,9 @@ class Home extends React.Component {
         })
         if (localStorage.getItem('hass-host')?.slice(0, 4) === 'http') {
             this.setState({
-                lowTarifSensorState: await fetchJson('/api/states/binary_sensor.nocni_proud_2', localStorage.getItem('hass-host'), 'GET', {
+                lowTarifSensorState: await fetchJson('/api/states/binary_sensor.nocni_proud_2', {
                     'Authorization': 'Bearer ' + localStorage.getItem('hass-token')
-                })
+                }, 'GET', null, localStorage.getItem('hass-host'))
             })
         }
     }

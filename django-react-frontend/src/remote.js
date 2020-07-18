@@ -1,8 +1,12 @@
 import Constants from './constants'
 
-const fetchJson = async (endpoint, host=Constants.BACKEND_URL, method='GET', headers={}, body=null) => {
-	const response = await fetch(host + endpoint, { method, headers, body })
-	return response.status === 200 ? await response.json() : {}
+
+/**
+ * Wrapper over javascript fetch function
+*/
+const fetchJson = async (endpoint, headers={}, method='GET', body=null, host=Constants.BACKEND_URL) => {
+	let response = await fetch(host + endpoint, { method, headers, body })
+	return response.status === 200 ? await response.json() : null
 }
 
 export default fetchJson

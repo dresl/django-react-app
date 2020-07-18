@@ -26,7 +26,8 @@ class ChatList extends React.Component {
   }
 
   getRoomList = () => {
-    const rooms = this.state.rooms.map((el, index) =>
+    console.log(this.state)
+    const rooms = this.state.rooms?.map((el, index) =>
       <Menu.Item key={index}><Link to={'/chat/' + el.id}>{el.name}</Link></Menu.Item>
     )
 

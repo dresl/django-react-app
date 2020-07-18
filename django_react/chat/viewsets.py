@@ -12,6 +12,7 @@ from .serializers import ChatGroupSerializer, ChatMessageSerializer
 
 class ChatGroupViewSet(viewsets.ModelViewSet):
     
+    permission_classes = []
     serializer_class = ChatGroupSerializer
     queryset = ChatGroup.objects.all()
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]

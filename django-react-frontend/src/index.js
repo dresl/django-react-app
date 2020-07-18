@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router } from "react-router-dom";
-import BaseRouter from './router/Router';
+import AuthenticationService from './components/auth/AuthenticationService'
 import './assets/scss/global.scss';
 
 ReactDOM.render(
   <Router>
-    <BaseRouter/>
+    <AuthenticationService/>
   </Router>,
   document.getElementById('root')
 );
