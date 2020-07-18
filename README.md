@@ -1,15 +1,8 @@
 # Django React app
 
-- webpack, web sockets, react, AntDesign, ...
+- django, Rest API, webpack (craco), web sockets, react, AntDesign, ...
 
 ## Installation
-
-### Build javascript and CSS files (using *webpack* and *babel*)
-
-```shell script
-npm install
-npm run build-assets
-```
 
 ### Sync python server
 
@@ -20,4 +13,12 @@ pip install -r requirements.txt
 python manage.py migrate
 python manage.py collectstatic
 python manage runserver
+```
+
+### Run frontend
+
+```
+cd django-react-frontend
+npm install
+npm start
 ```

@@ -2,10 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import {
   Switch,
   Route,
-  NavLink,
-  Link,
-  useRouteMatch,
-  useParams
+  useRouteMatch
 } from "react-router-dom";
 import { Spin } from 'antd';
 import Home from '../components/Home';
@@ -17,10 +14,6 @@ const AppLazy = lazy(() => import('../App'))
 
 class BaseRouter extends React.Component {
   
-  constructor(props) {
-    super(props)
-  }
-
   componentDidMount() {
   }
 

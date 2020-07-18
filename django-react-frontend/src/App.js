@@ -1,18 +1,7 @@
-import React, { useReducer } from 'react';
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
-import { Layout, Menu, Breadcrumb } from 'antd';
-import ChatList from './components/chat/ChatList'
-import {
-  Switch,
-  Route,
-  NavLink,
-  Link,
-  useRouteMatch,
-  useParams
-} from "react-router-dom";
-import Item from 'antd/lib/list/Item';
-const { SubMenu } = Menu;
-const { Header, Content, Sider } = Layout;
+import React from 'react'
+import { Layout, Menu } from 'antd'
+import { NavLink } from "react-router-dom"
+const { Header, Content, Sider } = Layout
 
 function App(props) {
   return (
@@ -47,4 +36,4 @@ function App(props) {
   )
 }
 
-export default App;
+export default App

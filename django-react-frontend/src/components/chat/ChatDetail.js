@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Switch,
-  Route,
-  Link,
-  useRouteMatch,
-  useParams,
-  withRouter
-} from "react-router-dom";
-import { Button } from "antd";
+import { withRouter } from "react-router-dom";
 import fetchJson from '../../remote';
 
 class ChatDetail extends React.Component {

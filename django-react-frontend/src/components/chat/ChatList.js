@@ -1,14 +1,6 @@
 import React from 'react';
 import { Spin, Menu } from 'antd';
-import Constants from '../../constants';
-import {
-  Switch,
-  Route,
-  Link,
-  useRouteMatch,
-  useParams
-} from "react-router-dom";
-import ChatDetail from './ChatDetail';
+import { Link } from "react-router-dom";
 import fetchJson from '../../remote';
 
 
