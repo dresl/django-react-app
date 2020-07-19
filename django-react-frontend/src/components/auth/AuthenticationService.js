@@ -2,9 +2,12 @@ import React from 'react'
 import fetchJson from '../../remote'
 import BaseRouter from '../../router/Router'
 
+var refreshInterval;
+
+
 class AuthenticationService extends React.Component {
 
-  _isMounted = false;
+  _isMounted = false
 
   constructor(props) {
     super(props)
@@ -14,30 +17,63 @@ class AuthenticationService extends React.Component {
     }
   }
 
+  kickUser = () => {
+    if (this._isMounted) {
+      this.setState({
+        loggedIn: false,
+        username: '',
+      })
+    }
+    localStorage.removeItem('token')
+    clearInterval(refreshInterval)
+  }
+
+  refreshAuthToken = async() => {
+    console.log('refreshing token...')
+      let response = await fetchJson('/api/v2/auth/token/refresh/', {
+        'Content-Type': 'application/json'
+      }, 'POST', JSON.stringify({
+        'token': localStorage.getItem('token')
+      }))
+      if (response) {
+        localStorage.setItem('token', response.token)
+        console.log(response)
+      } else {
+        this.kickUser()
+      }
+  }
+
+  refreshAuthTokenInterval = async() => {
+    refreshInterval = setInterval(async() => {
+      this.refreshAuthToken()
+    }, 14*60*1000)
+  }
+
   handleLogout = () => {
-    localStorage.removeItem('token');
-    this.setState({ loggedIn: false, username: '' });
-  };
+    this.kickUser()
+  }
 
   handleLogin = async(e, data) => {
-    e.preventDefault();
+    e.preventDefault()
     console.log(e)
     console.log(data)
-    let response = await fetchJson('/api/v2/auth/', {
+    let response = await fetchJson('/api/v2/auth/token/', {
       'Content-Type': 'application/json'
     }, 'POST', JSON.stringify(data))
-    console.log(response)
     if (response) {
-      localStorage.setItem('token', response.token);
-      this.setState({
-        loggedIn: true,
-        username: response.user.username
-      })
+      localStorage.setItem('token', response.token)
+      if (this._isMounted) {
+        this.setState({
+          loggedIn: true,
+          username: response.user.username
+        })
+      }
+      this.refreshAuthTokenInterval()
     }
   }
 
   handleSignup = (e, data) => {
-    e.preventDefault();
+    e.preventDefault()
     fetch('http://localhost:8000/core/users/', {
       method: 'POST',
       headers: {
@@ -47,16 +83,16 @@ class AuthenticationService extends React.Component {
     })
       .then(res => res.json())
       .then(json => {
-        localStorage.setItem('token', json.token);
+        localStorage.setItem('token', json.token)
         this.setState({
           loggedIn: true,
           username: json.username
-        });
-      });
-  };
+        })
+      })
+  }
 
   componentDidMount = async () => {
-    this._isMounted = true;
+    this._isMounted = true
     if (this.state.loggedIn) {
       console.log('checking...')
       let response
@@ -64,23 +100,22 @@ class AuthenticationService extends React.Component {
         Authorization: `JWT ${localStorage.getItem('token')}`
       })
       if (this._isMounted) {
-        if (response === null) {
-          this.setState({
-            loggedIn: false,
-            username: '',
-          })
-          localStorage.removeItem('token')
-        } else {
+        if (response) {
           this.setState({
             username: response.username
           })
+          console.log('proclo')
+          this.refreshAuthToken()
+          this.refreshAuthTokenInterval()
+        } else {
+          this.kickUser()
         }
       }
     }
   }
 
   componentWillUnmount() {
-    this._isMounted = false;
+    this._isMounted = false
   }
 
   render = () => {

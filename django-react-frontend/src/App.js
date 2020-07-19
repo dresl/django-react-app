@@ -32,7 +32,7 @@ class App extends React.Component {
             <Col span={12}>
               <Menu theme="dark" mode="horizontal">
                   <Menu.Item key='home'><NavLink exact={true} activeClassName="is-active" to="/">Home</NavLink></Menu.Item>
-                  <Menu.Item key='chat'><NavLink activeClassName="is-active" to="/chat">Chat</NavLink></Menu.Item>
+                  {this.props.authData.loggedIn ? <Menu.Item key='chat'><NavLink activeClassName="is-active" to="/chat">Chat</NavLink></Menu.Item> : <React.Fragment/>}
                   <Menu.Item key='settings'><NavLink activeClassName="is-active" to="/settings">Settings</NavLink></Menu.Item>
               </Menu>
             </Col>

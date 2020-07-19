@@ -16,10 +16,7 @@ const AppLazy = lazy(() => import('../App'))
 
 class BaseRouter extends React.Component {
 
-  componentDidMount() {
-  }
-
-  NoMatchPage = () => <AppLazy content={<h1>404 {window.location.pathname}</h1>}/>
+  NoMatchPage = () => <h1>404 {window.location.pathname}</h1>
 
   getRoute = (path, content=<React.Fragment/>, sideMenu=<React.Fragment/>, exact=false) => {
     return <Route exact={exact} path={path} component={
@@ -33,20 +30,19 @@ class BaseRouter extends React.Component {
         <Suspense fallback={<Spin size='large' className='page-loader'/>}>
           <Switch>
             {this.getRoute('/', <Home/>, <React.Fragment/>, true)}
-            {this.getRoute('/chat', <ChatRoomRoutes/>, <ChatList/>)}
+            {this.props.authData.loggedIn ? this.getRoute('/chat', <ChatRoomRoutes loggedIn={this.props.authData.loggedIn}/>, <ChatList/>) : ''}
             {this.getRoute('/settings', <Settings/>, <React.Fragment/>)}
             {this.getRoute('/auth/login', <LoginForm handleLogin={this.props.handleLogin}/>, <React.Fragment/>)}
             {this.getRoute('/auth/sign-up', <SignupForm handleSignup={this.props.handleSignup}/>, <React.Fragment/>)}
-            <Route path='*' component={this.NoMatchPage} />
+            {this.getRoute('*', this.NoMatchPage(), <React.Fragment/>)}
           </Switch>
         </Suspense>
       </React.Fragment>
     )
 }
 
-function ChatRoomRoutes() {
+function ChatRoomRoutes(loggedIn) {
   const match = useRouteMatch();
-
   return (
     <Switch>
       <Route exact path={`${match.path}`}>

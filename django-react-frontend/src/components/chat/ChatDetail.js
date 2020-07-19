@@ -14,8 +14,12 @@ class ChatDetail extends React.Component {
   static async getRoomData(id) {
 
     return {
-      roomName: (await fetchJson(`/api/v2/chat-group/${id}`)).name,
-      roomMessages: await fetchJson(`/api/v2/chat-group/${id}/messages`)
+      roomName: (await fetchJson(`/api/v2/chat-group/${id}`, {
+        Authorization: `JWT ${localStorage.getItem('token')}`
+      }))?.name,
+      roomMessages: await fetchJson(`/api/v2/chat-group/${id}/messages`, {
+        Authorization: `JWT ${localStorage.getItem('token')}`
+      })
     }
   }
 
