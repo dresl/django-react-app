@@ -1,6 +1,6 @@
 import React from "react"
 import { withRouter } from "react-router-dom"
-import fetchJson from '../../remote'
+import { fetchJson } from '../../utils'
 
 class ChatDetail extends React.Component {
 
@@ -16,10 +16,10 @@ class ChatDetail extends React.Component {
     return {
       roomName: (await fetchJson(`/api/v2/chat-group/${id}`, {
         Authorization: `JWT ${localStorage.getItem('token')}`
-      }))?.name,
-      roomMessages: await fetchJson(`/api/v2/chat-group/${id}/messages`, {
+      }))?.data.name,
+      roomMessages: (await fetchJson(`/api/v2/chat-group/${id}/messages`, {
         Authorization: `JWT ${localStorage.getItem('token')}`
-      })
+      }))?.data
     }
   }
 
@@ -33,7 +33,7 @@ class ChatDetail extends React.Component {
   async componentDidUpdate(prevProps, prevState) {
     // At this point, we're in the "commit" phase, so it's safe to load the new data.
     if (prevState.roomId !== this.state.roomId) {
-      let roomData = await ChatDetail.getRoomData(this.state.roomId)
+      const roomData = await ChatDetail.getRoomData(this.state.roomId)
       if (this._isMounted)
         this.setState(roomData)
     }

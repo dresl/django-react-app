@@ -1,5 +1,5 @@
 import React from 'react'
-import fetchJson from '../../remote'
+import { fetchJson, NotificationService } from '../../utils'
 import BaseRouter from '../../router/Router'
 
 var refreshInterval;
@@ -30,17 +30,17 @@ class AuthenticationService extends React.Component {
 
   refreshAuthToken = async() => {
     console.log('refreshing token...')
-      let response = await fetchJson('/api/v2/auth/token/refresh/', {
+    let response = await fetchJson('/api/v2/auth/token/refresh/', {
         'Content-Type': 'application/json'
       }, 'POST', JSON.stringify({
         'token': localStorage.getItem('token')
       }))
-      if (response) {
-        localStorage.setItem('token', response.token)
-        console.log(response)
-      } else {
-        this.kickUser()
-      }
+    if (response.status == 200) {
+      localStorage.setItem('token', response.data.token)
+      console.log(response)
+    } else {
+      this.kickUser()
+    }
   }
 
   refreshAuthTokenInterval = async() => {
@@ -51,24 +51,26 @@ class AuthenticationService extends React.Component {
 
   handleLogout = () => {
     this.kickUser()
+    NotificationService.openNotification('success', 'You have successfully logged out')
   }
 
-  handleLogin = async(e, data) => {
-    e.preventDefault()
-    console.log(e)
+  handleLogin = async(data) => {
     console.log(data)
     let response = await fetchJson('/api/v2/auth/token/', {
       'Content-Type': 'application/json'
     }, 'POST', JSON.stringify(data))
-    if (response) {
-      localStorage.setItem('token', response.token)
+    if (response.status == 200) {
+      localStorage.setItem('token', response.data.token)
       if (this._isMounted) {
         this.setState({
           loggedIn: true,
-          username: response.user.username
+          username: response.data.user.username
         })
       }
       this.refreshAuthTokenInterval()
+      NotificationService.openNotification('success', 'You have successfully logged in')
+    } else if (response.status == 400) {
+      NotificationService.openNotification('error', 'Your username or password is not correct')
     }
   }
 
@@ -95,14 +97,13 @@ class AuthenticationService extends React.Component {
     this._isMounted = true
     if (this.state.loggedIn) {
       console.log('checking...')
-      let response
-      response = await fetchJson('/api/v2/base/current-user/', {
+      let response = await fetchJson('/api/v2/base/current-user/', {
         Authorization: `JWT ${localStorage.getItem('token')}`
       })
-      if (this._isMounted) {
+      if (this._isMounted && response.status == 200) {
         if (response) {
           this.setState({
-            username: response.username
+            username: response.data.username
           })
           console.log('proclo')
           this.refreshAuthToken()

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Spin, Menu } from 'antd'
 import { Link } from "react-router-dom"
-import fetchJson from '../../remote'
+import { fetchJson } from '../../utils'
 
 
 class ChatList extends React.Component {
@@ -25,9 +25,9 @@ class ChatList extends React.Component {
     let response = await fetchJson('/api/v2/chat-group/', {
       Authorization: `JWT ${localStorage.getItem('token')}`
     })
-    if (this._isMounted) {
+    if (this._isMounted && response.status == 200) {
       this.setState({
-        rooms: response,
+        rooms: response.data,
         loaded: true
       })
     }

@@ -1,6 +1,6 @@
 import React from "react"
 import { Button, Spin, Divider } from "antd"
-import fetchJson from '../remote'
+import { fetchJson } from '../utils'
 import { CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons'
 
 const IconStyles = {
@@ -27,9 +27,9 @@ class Home extends React.Component {
       let response = await fetchJson('/api/states/binary_sensor.nocni_proud_2', {
           'Authorization': 'Bearer ' + localStorage.getItem('hass-token')
         }, 'GET', null, localStorage.getItem('hass-host'))
-      if (this._isMounted) {
+      if (this._isMounted && response.status == 200) {
         this.setState({
-          lowTarifSensorState: response
+          lowTarifSensorState: response.data
         })
       }
     }

@@ -1,47 +1,40 @@
 import React from 'react'
+import { Button, Divider, Input, Form, Typography } from "antd"
+
+const layout = {
+  labelCol: { span: 2 },
+  labelAlign: 'left',
+  wrapperCol: { span: 8 }
+}
 
 
 class LoginForm extends React.Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      username: '',
-      password: ''
-    }
-  }
-
-  handleChange = e => {
-    const name = e.target.name
-    const value = e.target.value
-    this.setState(prevstate => {
-      const newState = { ...prevstate }
-      newState[name] = value
-      return newState
+  clean = data => {
+    console.log(data)
+    this.props.handleLogin({
+      username: data.username,
+      password: data.password
     })
   }
 
   render() {
     return (
-      <form method='POST' onSubmit={async(e) => await this.props.handleLogin(e, this.state)}>
-        <h4>Log In</h4>
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          name="username"
-          value={this.state.username}
-          onChange={this.handleChange}
-        />
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          value={this.state.password}
-          onChange={this.handleChange}
-        />
-        <input type="submit" />
-      </form>
-    );
+      <React.Fragment>
+        <h2>Login</h2>
+        <Form {...layout} method='POST' onFinish={async(e) => await this.clean(e)}>
+          <Form.Item label='Username' name='username' rules={[{required: true}]}>
+            <Input/>
+          </Form.Item>
+          <Form.Item label='Password' name='password' rules={[{required: true}]}>
+            <Input type='password'/>
+          </Form.Item>
+          <Form.Item>
+            <Button type='primary' htmlType='submit'>Login</Button>
+          </Form.Item>
+        </Form>
+      </React.Fragment>
+    )
   }
 }
 
