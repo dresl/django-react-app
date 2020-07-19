@@ -4,6 +4,8 @@ import BaseRouter from '../../router/Router'
 
 class AuthenticationService extends React.Component {
 
+  _isMounted = false;
+
   constructor(props) {
     super(props)
     this.state = {
@@ -54,25 +56,31 @@ class AuthenticationService extends React.Component {
   };
 
   componentDidMount = async () => {
+    this._isMounted = true;
     if (this.state.loggedIn) {
       console.log('checking...')
       let response
       response = await fetchJson('/api/v2/base/current-user/', {
         Authorization: `JWT ${localStorage.getItem('token')}`
       })
-      console.log(response)
-      if (response === null) {
-        this.setState({
-          loggedIn: false,
-          username: '',
-        })
-        localStorage.removeItem('token')
-      } else {
-        this.setState({
-          username: response.username
-        })
+      if (this._isMounted) {
+        if (response === null) {
+          this.setState({
+            loggedIn: false,
+            username: '',
+          })
+          localStorage.removeItem('token')
+        } else {
+          this.setState({
+            username: response.username
+          })
+        }
       }
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render = () => {

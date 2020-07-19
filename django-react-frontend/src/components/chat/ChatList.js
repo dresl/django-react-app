@@ -6,6 +6,8 @@ import fetchJson from '../../remote'
 
 class ChatList extends React.Component {
 
+  _isMounted = false
+
   constructor(props) {
     super(props)
     this.state = {
@@ -15,14 +17,18 @@ class ChatList extends React.Component {
 
   // After the component did mount, we set the state each second.
   componentDidMount = () => {
-    this.fetchRooms();
+    this._isMounted = true
+    this.fetchRooms()
   }
 
   fetchRooms = async() => {
-    this.setState({
-      rooms: await fetchJson('/api/v2/chat-group/'),
-      loaded: true
-    })
+    let response = await fetchJson('/api/v2/chat-group/')
+    if (this._isMounted) {
+      this.setState({
+        rooms: response,
+        loaded: true
+      })
+    }
   }
 
   getRoomList = () => {
@@ -40,6 +46,10 @@ class ChatList extends React.Component {
         {rooms}
       </Menu>
     )
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   render() {
