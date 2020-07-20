@@ -3,6 +3,7 @@ channels
 channels-redis
 six
 djangorestframework
+djangorestframework-jwt
 markdown       # Markdown support for the browsable API.
 django-filter  # Filtering support
 django-cors-headers
