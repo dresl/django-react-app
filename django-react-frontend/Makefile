@@ -9,6 +9,8 @@ help:
 all: build publish
 
 build:
+	@echo "Have you exported REACT_APP_API_URL variable? Pres any key to continue..."
+	@read continue
 	rm -rf ./build
 	npm run build
 	docker build -t $(ORGANIZATION)/django-react-frontend:$(VERSION) -f ./Dockerfile .

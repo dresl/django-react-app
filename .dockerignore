@@ -3,3 +3,5 @@ venv
 .vscode
 .idea
 db.sqlite3
+static
+media

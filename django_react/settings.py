@@ -97,9 +97,8 @@ name = os.environ.get("DB_NAME", None)
 user = os.environ.get("DB_USER", None)
 password = os.environ.get("DB_PASSWORD", None)
 host = os.environ.get("DB_HOST", None)
-port = os.environ.get("DB_PORT", None)
 
-if name and user and password and host and port:
+if name and user and password and host:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
@@ -107,7 +106,7 @@ if name and user and password and host and port:
             "USER": user,
             "PASSWORD": password,
             "HOST": host,
-            "PORT": port,
+            "PORT": 5432,
         }
     }
 else:
@@ -154,10 +153,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'assets'),
-)
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
