@@ -23,12 +23,6 @@ class NotificationService {
           placement
         })
         break
-      case 'success':
-        notification.success({
-          message,
-          placement
-        })
-        break
       case 'error':
         notification.error({
           message,
@@ -47,6 +41,11 @@ class NotificationService {
           placement
         })
         break
+      default:
+        notification.info({
+          message,
+          placement
+        })
     }
   }
 }

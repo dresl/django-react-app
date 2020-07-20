@@ -27,7 +27,7 @@ class Home extends React.Component {
       let response = await fetchJson('/api/states/binary_sensor.nocni_proud_2', {
           'Authorization': 'Bearer ' + localStorage.getItem('hass-token')
         }, 'GET', null, localStorage.getItem('hass-host'))
-      if (this._isMounted && response.status == 200) {
+      if (this._isMounted && response.status === 200) {
         this.setState({
           lowTarifSensorState: response.data
         })

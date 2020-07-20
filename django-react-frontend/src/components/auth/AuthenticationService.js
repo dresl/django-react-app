@@ -35,7 +35,7 @@ class AuthenticationService extends React.Component {
       }, 'POST', JSON.stringify({
         'token': localStorage.getItem('token')
       }))
-    if (response.status == 200) {
+    if (response.status === 200) {
       localStorage.setItem('token', response.data.token)
       console.log(response)
     } else {
@@ -59,7 +59,7 @@ class AuthenticationService extends React.Component {
     let response = await fetchJson('/api/v2/auth/token/', {
       'Content-Type': 'application/json'
     }, 'POST', JSON.stringify(data))
-    if (response.status == 200) {
+    if (response.status === 200) {
       localStorage.setItem('token', response.data.token)
       if (this._isMounted) {
         this.setState({
@@ -69,7 +69,7 @@ class AuthenticationService extends React.Component {
       }
       this.refreshAuthTokenInterval()
       NotificationService.openNotification('success', 'You have successfully logged in')
-    } else if (response.status == 400) {
+    } else if (response.status === 400) {
       NotificationService.openNotification('error', 'Your username or password is not correct')
     }
   }
@@ -100,7 +100,7 @@ class AuthenticationService extends React.Component {
       let response = await fetchJson('/api/v2/base/current-user/', {
         Authorization: `JWT ${localStorage.getItem('token')}`
       })
-      if (this._isMounted && response.status == 200) {
+      if (this._isMounted && response.status === 200) {
         if (response) {
           this.setState({
             username: response.data.username
