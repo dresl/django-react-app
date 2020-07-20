@@ -1,6 +1,5 @@
 FROM node:14 as builder
 WORKDIR /app
-RUN npm install -g serve@10.1.1
 COPY ./build /app
 
 FROM nginx:stable
