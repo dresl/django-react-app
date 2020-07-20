@@ -7,3 +7,5 @@ djangorestframework-jwt
 markdown       # Markdown support for the browsable API.
 django-filter  # Filtering support
 django-cors-headers
+psycopg2-binary
+daphne

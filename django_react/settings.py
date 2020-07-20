@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ug_6(zj9zv9opy-swpm)10*o9h3m%&m+8$&7=j!$n&k7xa=80r'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -93,12 +93,30 @@ CHANNEL_LAYERS = {
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+name = os.environ.get("DB_NAME", None)
+user = os.environ.get("DB_USER", None)
+password = os.environ.get("DB_PASSWORD", None)
+host = os.environ.get("DB_HOST", None)
+port = os.environ.get("DB_PORT", None)
+
+if name and user and password and host and port:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": name,
+            "USER": user,
+            "PASSWORD": password,
+            "HOST": host,
+            "PORT": port,
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 
 # Password validation
@@ -169,9 +187,12 @@ JWT_AUTH = {
 
 # Cors headers
 
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-    'http://localhost:5000',
-    'http://localhost:8000',
-    'http://localhost:8080',
-]
+if os.environ.get('CORS_REACT_FRONTEND', None):
+    CORS_ORIGIN_WHITELIST = [os.environ.get('CORS_REACT_FRONTEND')]
+else:
+    CORS_ORIGIN_WHITELIST = [
+        'http://localhost:3000',
+        'http://localhost:5000',
+        'http://localhost:8000',
+        'http://localhost:8080',
+    ]

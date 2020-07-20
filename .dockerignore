@@ -1,0 +1,5 @@
+django-react-frontend
+venv
+.vscode
+.idea
+db.sqlite3
