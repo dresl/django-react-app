@@ -2,6 +2,7 @@ import React from "react"
 import { withRouter } from "react-router-dom"
 import { fetchJson } from '../../utils'
 
+
 class ChatDetail extends React.Component {
 
   _isMounted = false
@@ -14,12 +15,8 @@ class ChatDetail extends React.Component {
   static async getRoomData(id) {
 
     return {
-      roomName: (await fetchJson(`/api/v2/chat-group/${id}`, {
-        Authorization: `JWT ${localStorage.getItem('token')}`
-      }))?.data.name,
-      roomMessages: (await fetchJson(`/api/v2/chat-group/${id}/messages`, {
-        Authorization: `JWT ${localStorage.getItem('token')}`
-      }))?.data
+      roomName: (await fetchJson.get(`/api/v2/chat-group/${id}`))?.data.name,
+      roomMessages: (await fetchJson.get(`/api/v2/chat-group/${id}/messages`))?.data
     }
   }
 

@@ -22,9 +22,7 @@ class ChatList extends React.Component {
   }
 
   fetchRooms = async() => {
-    let response = await fetchJson('/api/v2/chat-group/', {
-      Authorization: `JWT ${localStorage.getItem('token')}`
-    })
+    let response = await fetchJson.get('/api/v2/chat-group/')
     if (this._isMounted && response.status === 200) {
       this.setState({
         rooms: response.data,

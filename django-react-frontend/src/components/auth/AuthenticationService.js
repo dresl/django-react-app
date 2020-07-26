@@ -30,15 +30,14 @@ class AuthenticationService extends React.Component {
 
   refreshAuthToken = async() => {
     console.log('refreshing token...')
-    let response = await fetchJson('/api/v2/auth/token/refresh/', {
-        'Content-Type': 'application/json'
-      }, 'POST', JSON.stringify({
-        'token': localStorage.getItem('token')
-      }))
-    if (response.status === 200) {
+    const data = {
+      token: localStorage.getItem('token')
+    }
+    try {
+      const response = await fetchJson.post('/api/v2/auth/token/refresh/', data)
       localStorage.setItem('token', response.data.token)
-      console.log(response)
-    } else {
+      console.log('Token refreshed')
+    } catch(err) {
       this.kickUser()
     }
   }
@@ -46,7 +45,7 @@ class AuthenticationService extends React.Component {
   refreshAuthTokenInterval = async() => {
     refreshInterval = setInterval(async() => {
       this.refreshAuthToken()
-    }, 14*60*1000)
+    }, 1000)
   }
 
   handleLogout = () => {
@@ -54,23 +53,27 @@ class AuthenticationService extends React.Component {
     NotificationService.openNotification('success', 'You have successfully logged out')
   }
 
-  handleLogin = async(data) => {
-    console.log(data)
-    let response = await fetchJson('/api/v2/auth/token/', {
-      'Content-Type': 'application/json'
-    }, 'POST', JSON.stringify(data))
-    if (response.status === 200) {
-      localStorage.setItem('token', response.data.token)
-      if (this._isMounted) {
-        this.setState({
-          loggedIn: true,
-          username: response.data.user.username
-        })
+  handleLogin = async(_data) => {
+    console.log(_data)
+    try {
+      let response = await fetchJson.post('/api/v2/auth/token/', _data)
+      if (response.status === 200) {
+        localStorage.setItem('token', response.data.token)
+        fetchJson.defaults.headers.common['Authorization'] = `JWT ${localStorage.getItem('token')}`
+        if (this._isMounted) {
+          this.setState({
+            loggedIn: true,
+            username: response.data.user.username
+          })
+        }
+        this.refreshAuthTokenInterval()
+        NotificationService.openNotification('success', 'You have successfully logged in')
+        return true
       }
-      this.refreshAuthTokenInterval()
-      NotificationService.openNotification('success', 'You have successfully logged in')
-    } else if (response.status === 400) {
-      NotificationService.openNotification('error', 'Your username or password is not correct')
+    } catch(err) {
+      if (err?.response?.status != 400)
+        NotificationService.openNotification('error', 'Something went wrong')
+      return false
     }
   }
 
@@ -97,9 +100,7 @@ class AuthenticationService extends React.Component {
     this._isMounted = true
     if (this.state.loggedIn) {
       console.log('checking...')
-      let response = await fetchJson('/api/v2/base/current-user/', {
-        Authorization: `JWT ${localStorage.getItem('token')}`
-      })
+      let response = await fetchJson('/api/v2/base/current-user/')
       if (this._isMounted && response.status === 200) {
         if (response) {
           this.setState({

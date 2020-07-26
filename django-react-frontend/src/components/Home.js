@@ -8,6 +8,7 @@ const IconStyles = {
   marginLeft: '5px',
 }
 
+
 class Home extends React.Component {
 
   _isMounted = false
@@ -24,9 +25,10 @@ class Home extends React.Component {
       lowTarifSensorState: null
     })
     if (localStorage.getItem('hass-host')?.slice(0, 4) === 'http') {
-      let response = await fetchJson('/api/states/binary_sensor.nocni_proud_2', {
-          'Authorization': 'Bearer ' + localStorage.getItem('hass-token')
-        }, 'GET', null, localStorage.getItem('hass-host'))
+      let response = await fetchJson.get(localStorage.getItem('hass-host') + '/api/states/binary_sensor.nocni_proud_2', {
+        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('hass-token') }
+      })
+      console.log(response)
       if (this._isMounted && response.status === 200) {
         this.setState({
           lowTarifSensorState: response.data

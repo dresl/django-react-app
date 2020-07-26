@@ -1,13 +1,16 @@
-import { notification } from 'antd';
+import { notification } from 'antd'
 import Constants from './constants'
+import axios from 'axios'
+
 
 /**
- * Wrapper over javascript fetch function
-*/
-const fetchJson = async (endpoint, headers = {}, method = 'GET', body = null, host = Constants.BACKEND_URL) => {
-  let response = await fetch(host + endpoint, { method, headers, body })
-  return response.status === 200 ? { data: await response.json(), status: 200 } : { status: response.status }
-}
+ * Axios wrapper
+ */
+const fetchJson = axios.create({
+  baseURL: Constants.BACKEND_URL
+})
+fetchJson.defaults.headers.common['Authorization'] = `JWT ${localStorage.getItem('token')}`
+fetchJson.defaults.headers.common['Content-Type'] = 'application/json'
 
 
 /**
