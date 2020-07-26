@@ -64,7 +64,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-assets": "webpack -p",
     "dev-watch": "webpack --mode development --watch",
-    "sync-browser": "browser-sync start --watch --port 8001 --files django_react"
+    "sync-browser": "browser-sync start --no-notify --watch --port 8001 --files django_react"
   },
   "repository": {
     "type": "git",
