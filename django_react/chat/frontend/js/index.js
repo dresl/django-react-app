@@ -19,7 +19,7 @@ class LikeButton extends React.Component {
     return (
       <React.Fragment>
         <Button onClick={() => this.setState({ liked: true })} type="ghost">
-          Primary Button
+          Like
         </Button>
         <DatePicker />
       </React.Fragment>
