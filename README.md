@@ -1,4 +1,4 @@
-# Django React app
+# Django React app - hybrid architecture
 
 - webpack, web sockets, react, AntDesign, ...
 
