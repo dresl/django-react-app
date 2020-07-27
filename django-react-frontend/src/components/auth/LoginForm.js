@@ -1,11 +1,11 @@
 import React from 'react'
 import { Button, Input, Form, Alert } from "antd"
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
-const layout = {
-  labelCol: { span: 2 },
-  labelAlign: 'left',
-  wrapperCol: { span: 8 }
-}
+const formItemRules = [{
+  required: true,
+  message: 'This field is required'
+}]
 
 
 class LoginForm extends React.Component {
@@ -47,12 +47,12 @@ class LoginForm extends React.Component {
     return (
       <React.Fragment>
         <h2>Login</h2>
-        <Form {...layout} method='POST' onFinish={async(data) => await this.clean(data)}>
-          <Form.Item label='Username' name='username' rules={[{required: true}]}>
-            <Input/>
+        <Form className="login-form" method='POST' onFinish={async(data) => await this.clean(data)}>
+          <Form.Item name='username' rules={formItemRules}>
+            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
           </Form.Item>
-          <Form.Item label='Password' name='password' rules={[{required: true}]}>
-            <Input.Password/>
+          <Form.Item name='password' rules={formItemRules}>
+            <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password" />
           </Form.Item>
           <Form.Item>
             <Button type='primary' htmlType='submit'>Login</Button>
