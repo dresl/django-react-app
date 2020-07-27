@@ -50,7 +50,7 @@ class AuthenticationService extends React.Component {
   refreshAuthTokenInterval = async() => {
     refreshInterval = setInterval(async() => {
       this.refreshAuthToken()
-    }, 1000)
+    }, 14*60*1000)
   }
 
   handleLogout = () => {
@@ -76,7 +76,7 @@ class AuthenticationService extends React.Component {
       }
     } catch(err) {
       console.log(err.response)
-      if (err?.response?.status != 400)
+      if (err?.response?.status !== 400)
         NotificationService.openNotification('error', 'Something went wrong')
       return false
     }
@@ -104,18 +104,20 @@ class AuthenticationService extends React.Component {
     this._isMounted = true
     if (this.state.loggedIn) {
       console.log('checking...')
-      let response = await fetchJson('/api/v2/users/current/')
-      if (this._isMounted && response.status === 200) {
-        if (response) {
-          this.setState({
-            username: response.data.username
-          })
-          console.log('proclo')
-          this.refreshAuthToken()
-          this.refreshAuthTokenInterval()
-        } else {
-          this.kickUser()
+      try {
+        let response = await fetchJson('/api/v2/users/current/')
+        if (this._isMounted && response.status === 200) {
+          if (response) {
+            this.setState({
+              username: response.data.username
+            })
+            this.refreshAuthToken()
+            this.refreshAuthTokenInterval()
+          } else
+            this.kickUser()
         }
+      } catch (err) {
+        this.kickUser()
       }
     }
   }

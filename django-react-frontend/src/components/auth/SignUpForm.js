@@ -1,6 +1,5 @@
 import React from 'react'
-import { Button, Input, Form, Alert, Row, Col } from "antd"
-import { FormInstance } from 'antd/lib/form';
+import { Button, Input, Form, Alert } from "antd"
 import { fetchJson } from '../../utils';
 
 const formItemLayout = {
@@ -44,8 +43,7 @@ class SignUpForm extends React.Component {
     }
   }
 
-  static validateUsername = async (value) => {
-    console.log(value)
+  static fetchUsername = async (value) => {
     let response = await fetchJson.post('/api/v2/users/exists/', {
       username: value
     })
@@ -53,7 +51,18 @@ class SignUpForm extends React.Component {
     return response.status === 200 ? response.data : { exists: false }
   }
 
-  clean = async (data) => {
+  static validateUsername = async(value) => {
+    if (value) {
+      const { exists } = await SignUpForm.fetchUsername(value)
+      if (exists)
+        return Promise.reject('This username is already taken')
+      if (value.length < 4)
+        return Promise.reject('Username must be at least 4 characters long')
+    }
+    return Promise.resolve()
+  }
+
+  clean = async(data) => {
     this.setState({
       signUpOK: true
     })
@@ -69,16 +78,16 @@ class SignUpForm extends React.Component {
     return <Alert message="Something went wrong" type="error" showIcon />
   }
 
+  checkPasswords = () => {
+    return this.state.password1 === this.state.password2 ? true : false
+  }
+
   componentDidMount = () => {
     this._isMounted = true
   }
 
   componentWillUnmount = () => {
     this._isMounted = false
-  }
-
-  checkPasswords = () => {
-    return this.state.password1 === this.state.password2 ? true : false
   }
 
   render() {
@@ -90,14 +99,9 @@ class SignUpForm extends React.Component {
             rules={[...formItemRules,
             () => ({
               async validator(_, value) {
-                if (value) {
-                  const { exists } = await SignUpForm.validateUsername(value)
-                  if (exists)
-                    return Promise.reject('This username is already taken')
-                }
-                return Promise.resolve()
+                return SignUpForm.validateUsername(value)
               }
-            })]}>
+            })]} hasFeedback>
             <Input autoComplete='off' />
           </Form.Item>
           <Form.Item label='First name' name='first_name' rules={formItemRules}>
