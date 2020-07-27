@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from .serializers import UserWithTokenSerializer
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(viewsets.ViewSet):
     
     permission_classes = []
     serializer_class = UserWithTokenSerializer
@@ -21,6 +21,22 @@ class UserViewSet(viewsets.ModelViewSet):
     def list(self, request):
         return Response({'data'})
     
+    def retrieve(self, request, pk=None):
+        current_user = get_user_model().objects.get(pk=pk)
+        res = {
+            'id': current_user.id,
+            'username': current_user.username
+        }
+        return Response(res)
+    
+    @action(methods=['GET'], detail=True)
+    def chat_groups(self, request, pk=None):
+        current_user = get_user_model().objects.get(pk=pk)
+        if int(request.user.id) == int(pk):
+            res = [{ 'name': group.name } for group in current_user.chat_groups.all()]
+            return Response(res, status=status.HTTP_200_OK)
+        return Response({}, status=status.HTTP_400_BAD_REQUEST)
+
     @action(methods=['POST'], detail=False)
     def signup(self, request):
         serializer = UserWithTokenSerializer(data=request.data)
