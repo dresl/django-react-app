@@ -4,8 +4,6 @@ from django.contrib import admin
 from rest_framework import routers
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 
-# from base.views import current_user, UserList
-
 router = routers.DefaultRouter()
 
 urlpatterns = [
