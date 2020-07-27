@@ -1,14 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import * as serviceWorker from './serviceWorker';
-import { BrowserRouter as Router } from "react-router-dom";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import * as serviceWorker from './serviceWorker'
+import { BrowserRouter as Router } from "react-router-dom"
 import AuthenticationService from './components/auth/AuthenticationService'
-import './assets/scss/global.scss';
+import "weaveworks-ui-components/styles.scss"
+import './assets/scss/global.scss'
+import { ThemeProvider } from 'styled-components'
+import theme from 'weaveworks-ui-components/lib/theme';
 
 ReactDOM.render(
-  <Router>
-    <AuthenticationService/>
-  </Router>,
+  <ThemeProvider theme={theme}>
+    <Router>
+      <AuthenticationService/>
+    </Router>
+  </ThemeProvider>,
   document.getElementById('root')
 );
 
