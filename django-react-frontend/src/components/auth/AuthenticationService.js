@@ -17,6 +17,11 @@ class AuthenticationService extends React.Component {
     }
   }
 
+  setToken = token => {
+    localStorage.setItem('token', token)
+    fetchJson.defaults.headers.common['Authorization'] = `JWT ${localStorage.getItem('token')}`
+  }
+
   kickUser = () => {
     if (this._isMounted) {
       this.setState({
@@ -53,13 +58,12 @@ class AuthenticationService extends React.Component {
     NotificationService.openNotification('success', 'You have successfully logged out')
   }
 
-  handleLogin = async(_data) => {
-    console.log(_data)
+  handleLogin = async(data) => {
+    console.log(data)
     try {
-      let response = await fetchJson.post('/api/v2/auth/token/', _data)
+      let response = await fetchJson.post('/api/v2/auth/token/', data)
       if (response.status === 200) {
-        localStorage.setItem('token', response.data.token)
-        fetchJson.defaults.headers.common['Authorization'] = `JWT ${localStorage.getItem('token')}`
+        this.setToken(response.data.token)
         if (this._isMounted) {
           this.setState({
             loggedIn: true,
@@ -71,36 +75,36 @@ class AuthenticationService extends React.Component {
         return true
       }
     } catch(err) {
+      console.log(err.response)
       if (err?.response?.status != 400)
         NotificationService.openNotification('error', 'Something went wrong')
       return false
     }
   }
 
-  handleSignup = (e, data) => {
-    e.preventDefault()
-    fetch('http://localhost:8000/core/users/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-      .then(res => res.json())
-      .then(json => {
-        localStorage.setItem('token', json.token)
+  handleSignup = async(data) => {
+    try {
+      let response = await fetchJson.post('/api/v2/users/signup/', data)
+      console.log(response)
+      this.setToken(response.data.token)
+      if (this._isMounted) {
         this.setState({
           loggedIn: true,
-          username: json.username
+          username: response.data.username
         })
-      })
+      }
+      return true
+    } catch(err) {
+      console.log(err.response)
+      return false
+    }
   }
 
   componentDidMount = async () => {
     this._isMounted = true
     if (this.state.loggedIn) {
       console.log('checking...')
-      let response = await fetchJson('/api/v2/base/current-user/')
+      let response = await fetchJson('/api/v2/users/current/')
       if (this._isMounted && response.status === 200) {
         if (response) {
           this.setState({

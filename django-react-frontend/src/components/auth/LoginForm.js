@@ -23,10 +23,7 @@ class LoginForm extends React.Component {
     this.setState({
       authOK: true
     })
-    const res = await this.props.handleLogin({
-      username: data.username,
-      password: data.password
-    })
+    const res = await this.props.handleLogin(data)
     console.log(res)
     if (this._isMounted)
       this.setState({
@@ -55,7 +52,7 @@ class LoginForm extends React.Component {
             <Input/>
           </Form.Item>
           <Form.Item label='Password' name='password' rules={[{required: true}]}>
-            <Input type='password'/>
+            <Input.Password/>
           </Form.Item>
           <Form.Item>
             <Button type='primary' htmlType='submit'>Login</Button>

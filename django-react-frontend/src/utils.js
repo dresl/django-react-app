@@ -9,7 +9,8 @@ import axios from 'axios'
 const fetchJson = axios.create({
   baseURL: Constants.BACKEND_URL
 })
-fetchJson.defaults.headers.common['Authorization'] = `JWT ${localStorage.getItem('token')}`
+if (localStorage.getItem('token'))
+  fetchJson.defaults.headers.common['Authorization'] = `JWT ${localStorage.getItem('token')}`
 fetchJson.defaults.headers.common['Content-Type'] = 'application/json'
 
 

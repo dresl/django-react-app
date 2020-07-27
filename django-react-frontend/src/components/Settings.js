@@ -8,7 +8,7 @@ const layout = {
 
 const tailLayout = {
     wrapperCol: { offset: 3, span: 16 },
-};
+}
 
 class Settings extends React.Component {
 

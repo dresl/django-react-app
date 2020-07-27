@@ -3,17 +3,7 @@ from rest_framework import permissions, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UserSerializer, UserWithTokenSerializer
-
-
-@api_view(['GET'])
-def current_user(request):
-    """
-    Determine the current user by their token, and return their data
-    """
-    
-    serializer = UserSerializer(request.user)
-    return Response(serializer.data)
+from .serializers import UserWithTokenSerializer
 
 
 class UserList(APIView):
@@ -21,7 +11,7 @@ class UserList(APIView):
     Create a new user.
     """
 
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = [permissions.AllowAny]
 
     def post(self, request, format=None):
         serializer = UserWithTokenSerializer(data=request.data)

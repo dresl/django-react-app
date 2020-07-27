@@ -20,7 +20,7 @@ class ChatGroupViewSet(viewsets.ModelViewSet):
     ordering_fields = ('slug')
     ordering = 'slug'
 
-    @action(methods=['get'], detail=True)
+    @action(methods=['GET'], detail=True)
     def messages(self, request, pk=None):
         group = ChatGroup.objects.get(pk=pk)
         #msg for msg in group.messages.all()
