@@ -15,7 +15,6 @@ class ChatList extends React.Component {
     }
   }
 
-  // After the component did mount, we set the state each second.
   componentDidMount = () => {
     this._isMounted = true
     this.fetchRooms()

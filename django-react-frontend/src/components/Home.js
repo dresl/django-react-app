@@ -2,7 +2,7 @@ import React from "react"
 import { Button, Spin, Divider } from "antd"
 import { fetchJson } from '../utils'
 import { CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons'
-import { ResourceDial, GraphEdge, GraphNode, Grid, GridColumn, GridRow, Button as WeaveButton } from 'weaveworks-ui-components'
+import { ResourceDial, GraphEdge, GraphNode, Grid, GridColumn, GridRow } from 'weaveworks-ui-components'
 
 const IconStyles = {
   fontSize: '17px',

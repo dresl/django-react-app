@@ -47,7 +47,16 @@ class ChatGroupViewSet(viewsets.ViewSet):
                 "date": msg.date,
                 "username": msg.user.username,
                 "user": msg.user.get_full_name(),
-                } for msg in group.messages.all()]               
+                } for msg in group.messages.all()]
+            return Response(res)
+        return Response({}, status=status.HTTP_400_BAD_REQUEST)
+    
+    @action(methods=['GET'], detail=True)
+    def users(self, request, pk=None):
+        current_user = get_user_model().objects.get(pk=request.user.id)
+        group = ChatGroup.objects.get(pk=pk)
+        if group in current_user.chat_groups.all():
+            res = [{ "name": user.get_full_name(), "username": user.username } for user in group.users.all()]
             return Response(res)
         return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -62,7 +71,8 @@ class ChatGroupViewSet(viewsets.ViewSet):
         if group in current_user.chat_groups.all():
             return Response({
                 'name': group.name,
-                'id': group.id
+                'id': group.id,
+                'users': [{ "name": user.get_full_name(), "username": user.username } for user in group.users.all()]
             })
         return Response({}, status=status.HTTP_400_BAD_REQUEST)
 

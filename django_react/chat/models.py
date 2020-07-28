@@ -26,7 +26,7 @@ class ChatMessage(models.Model):
     text = models.TextField(verbose_name="Message text", max_length=1024)
     date = models.DateTimeField(verbose_name="Date", default=timezone.now)
     chat = models.ForeignKey(ChatGroup, verbose_name="Chat group", related_name="messages", on_delete=models.DO_NOTHING)
-    user = models.ForeignKey(User, verbose_name="Sender", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, verbose_name="Sender", related_name='users', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "Message"

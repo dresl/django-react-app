@@ -42,7 +42,7 @@ class BaseRouter extends React.Component {
         <Suspense fallback={<Spin size='large' className='page-loader'/>}>
           <Switch>
             {this.getRoute('/', <Home/>, <React.Fragment/>, true)}
-            {this.props.authData.loggedIn ? this.getRoute('/chat', <ChatRoomRoutes loggedIn={this.props.authData.loggedIn}/>, <ChatList/>) : ''}
+            {this.props.authData.loggedIn ? this.getRoute('/chat', <ChatRoomRoutes/>, <ChatList/>) : ''}
             {this.getRoute('/settings', <Settings/>, <React.Fragment/>)}
             {this.getRoute('/auth/login', <LoginForm handleLogin={this.props.handleLogin}/>, <React.Fragment/>, false, true)}
             {this.getRoute('/auth/sign-up', <SignupForm handleSignup={this.props.handleSignup}/>, <React.Fragment/>, false, true)}
@@ -53,7 +53,7 @@ class BaseRouter extends React.Component {
     )
 }
 
-function ChatRoomRoutes(loggedIn) {
+function ChatRoomRoutes() {
   const match = useRouteMatch();
   return (
     <Switch>
