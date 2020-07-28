@@ -9,6 +9,8 @@ const IconStyles = {
   marginLeft: '5px',
 }
 
+var interval
+
 
 class Home extends React.Component {
 
@@ -40,7 +42,7 @@ class Home extends React.Component {
   }
 
   fetchDummyMemoryInterval = async () => {
-    setInterval(async () => {
+    interval = setInterval(async () => {
       await this.fetchDummyMemory()
     }, 5000)
   }
@@ -75,6 +77,7 @@ class Home extends React.Component {
 
   componentWillUnmount() {
     this._isMounted = false
+    clearInterval(interval)
   }
 
   render = () => {
