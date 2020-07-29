@@ -27,9 +27,9 @@ const tailFormItemLayout = {
 }
 
 const formItemRules = [{
-    required: true,
-    message: 'This field is required'
-  }]
+  required: true,
+  message: 'This field is required'
+}]
 
 
 class SignUpForm extends React.Component {
