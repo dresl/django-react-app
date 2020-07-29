@@ -1,6 +1,6 @@
 import React from 'react'
 import { Spin, Menu } from 'antd'
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
 import { fetchJson } from '../../utils'
 
 

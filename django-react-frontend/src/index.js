@@ -6,7 +6,8 @@ import AuthenticationService from './components/auth/AuthenticationService'
 import "weaveworks-ui-components/styles.scss"
 import './assets/scss/global.scss'
 import { ThemeProvider } from 'styled-components'
-import theme from 'weaveworks-ui-components/lib/theme';
+import theme from 'weaveworks-ui-components/lib/theme'
+import 'react-chat-elements/dist/main.css';
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>

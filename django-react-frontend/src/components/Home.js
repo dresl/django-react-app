@@ -1,7 +1,7 @@
 import React from "react"
 import { Button, Spin, Divider } from "antd"
 import { fetchJson } from '../utils'
-import { CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons'
+import { CheckCircleTwoTone, CloseCircleTwoTone, QuestionCircleOutlined } from '@ant-design/icons'
 import { ResourceDial, GraphEdge, GraphNode, Grid, GridColumn, GridRow } from 'weaveworks-ui-components'
 
 const IconStyles = {
@@ -31,14 +31,22 @@ class Home extends React.Component {
       })
     }
     if (localStorage.getItem('hass-host')?.slice(0, 4) === 'http') {
-      let response = await fetchJson.get(localStorage.getItem('hass-host') + '/api/states/binary_sensor.nocni_proud_2', {
-        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('hass-token') }
-      })
-      console.log(response)
-      if (this._isMounted && response.status === 200) {
-        this.setState({
-          lowTarifSensorState: response.data
+      try {
+        let response = await fetchJson.get(localStorage.getItem('hass-host') + '/api/states/binary_sensor.nocni_proud_2', {
+          headers: { 'Authorization': 'Bearer ' + localStorage.getItem('hass-token') },
+          timeout: 4000
         })
+        if (this._isMounted && response.status === 200) {
+          this.setState({
+            lowTarifSensorState: response.data
+          })
+        }
+      } catch(err) {
+        console.log(err)
+        if (this._isMounted) 
+          this.setState({
+            lowTarifSensorState: { state: 'unknown' }
+          })
       }
     }
   }
@@ -65,11 +73,7 @@ class Home extends React.Component {
 
   componentDidMount = async () => {
     this._isMounted = true
-    try {
-      await this.fetchSensorData()
-    } catch (e) {
-      console.log(e)
-    }
+    await this.fetchSensorData()
     await this.fetchDummyMemory()
     await this.fetchDummyMemoryInterval()
   }
@@ -77,7 +81,8 @@ class Home extends React.Component {
   getOnOffIcon = state => {
     return {
       on: <CheckCircleTwoTone style={IconStyles} twoToneColor="#52c41a" />,
-      off: <CloseCircleTwoTone style={IconStyles} twoToneColor="red" />
+      off: <CloseCircleTwoTone style={IconStyles} twoToneColor="red" />,
+      unknown: <QuestionCircleOutlined style={IconStyles} twoToneColor="blue" />
     }[state] ?? null
   }
 
