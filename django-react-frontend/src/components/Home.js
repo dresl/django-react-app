@@ -63,7 +63,11 @@ class Home extends React.Component {
 
   componentDidMount = async () => {
     this._isMounted = true
-    await this.fetchSensorData()
+    try {
+      await this.fetchSensorData()
+    } catch (e) {
+      console.log(e)
+    }
     await this.fetchDummyMemory()
     await this.fetchDummyMemoryInterval()
   }
