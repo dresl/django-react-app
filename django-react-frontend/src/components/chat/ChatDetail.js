@@ -1,7 +1,7 @@
 import React from "react"
 import { withRouter } from "react-router-dom"
 import { fetchJson } from '../../utils'
-import { Mentions, Button, Form } from 'antd'
+import { Mentions, Button, Form, Spin } from 'antd'
 import { MentionsInput, Mention } from 'react-mentions'
 
 const { Option } = Mentions
@@ -34,8 +34,14 @@ class ChatDetail extends React.Component {
   }
   
   async componentDidUpdate(prevProps, prevState) {
-    // At this point, we're in the "commit" phase, so it's safe to load the new data.
     if (prevState.roomId !== this.state.roomId) {
+      if (this._isMounted) {
+        this.setState({
+          roomName: null,
+          roomMessages: null,
+          roomUsers: null
+        })
+      }
       const roomData = await ChatDetail.getRoomData(this.state.roomId)
       if (this._isMounted) {
         this.setState(roomData)
@@ -54,13 +60,21 @@ class ChatDetail extends React.Component {
     this._isMounted = false
   }
 
-  render() {
+  getChatBody = () => {
     return (
       <React.Fragment>
         <h1>Welcome to '{this.state.roomName}'</h1>
         {this.state.roomMessages?.map((e, index) =>
           <p key={index}>{e.text}</p>
         )}
+      </React.Fragment>
+    )
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        {this.state.roomName && this.state.roomMessages ? this.getChatBody() : <Spin/>}
         <Form ref={this.formRef} method='POST' onFinish={async(data) => await console.log(data)}>
           <Form.Item name='username' rules={[{ required: true, message: 'You have to input message' }]}>
             <Mentions autoSize onPressEnter={console.log}>

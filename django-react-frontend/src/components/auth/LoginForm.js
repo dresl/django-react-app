@@ -11,23 +11,27 @@ const formItemRules = [{
 class LoginForm extends React.Component {
 
   _isMounted = false
+  buttonRef = React.createRef()
 
   constructor(props) {
     super(props)
     this.state = {
-      authOK: true
+      authOK: true,
+      loading: false
     }
   }
 
   clean = async(data) => {
     this.setState({
-      authOK: true
+      authOK: true,
+      loading: true
     })
     const res = await this.props.handleLogin(data)
     console.log(res)
     if (this._isMounted)
       this.setState({
-        authOK: res
+        authOK: res,
+        loading: false
       })
   }
 
@@ -55,7 +59,7 @@ class LoginForm extends React.Component {
             <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password" />
           </Form.Item>
           <Form.Item>
-            <Button type='primary' htmlType='submit'>Login</Button>
+            <Button loading={this.state.loading} type='primary' htmlType='submit'>Login</Button>
           </Form.Item>
           {!this.state.authOK ? this.showAlert() : ''}
         </Form>

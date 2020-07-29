@@ -25,9 +25,11 @@ class Home extends React.Component {
   }
 
   fetchSensorData = async () => {
-    this.setState({
-      lowTarifSensorState: null
-    })
+    if (this._isMounted) {
+      this.setState({
+        lowTarifSensorState: null
+      })
+    }
     if (localStorage.getItem('hass-host')?.slice(0, 4) === 'http') {
       let response = await fetchJson.get(localStorage.getItem('hass-host') + '/api/states/binary_sensor.nocni_proud_2', {
         headers: { 'Authorization': 'Bearer ' + localStorage.getItem('hass-token') }
@@ -50,7 +52,7 @@ class Home extends React.Component {
   fetchDummyMemory = async () => {
     try {
       let response = await fetchJson('/api/v2/chat-group/memory/')
-      if (response.status === 200) {
+      if (response.status === 200 && this._isMounted) {
         this.setState({
           memoryUsage: response.data['memory-usage']
         })

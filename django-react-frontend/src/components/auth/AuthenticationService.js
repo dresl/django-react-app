@@ -93,9 +93,12 @@ class AuthenticationService extends React.Component {
           username: response.data.username
         })
       }
+      NotificationService.openNotification('success', 'Welcome! You have successfully signed up')
       return true
     } catch(err) {
       console.log(err.response)
+      if (err?.response?.status !== 400)
+        NotificationService.openNotification('error', 'Something went wrong')
       return false
     }
   }

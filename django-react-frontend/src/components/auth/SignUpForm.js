@@ -39,7 +39,8 @@ class SignUpForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      signUpOK: true
+      signUpOK: true,
+      loading: false
     }
   }
 
@@ -64,13 +65,15 @@ class SignUpForm extends React.Component {
 
   clean = async(data) => {
     this.setState({
-      signUpOK: true
+      signUpOK: true,
+      loading: true
     })
     const res = await this.props.handleSignup(data)
     console.log(res)
     if (this._isMounted)
       this.setState({
-        signUpOK: res
+        signUpOK: res,
+        loading: false
       })
   }
 
@@ -127,7 +130,7 @@ class SignUpForm extends React.Component {
             <Input.Password/>
           </Form.Item>
           <Form.Item {...tailFormItemLayout}>
-            <Button type='primary' htmlType='submit'>Sign Up</Button>
+            <Button type='primary' htmlType='submit' loading={this.state.loading}>Sign Up</Button>
           </Form.Item>
           {!this.state.signUpOK ? this.showAlert() : ''}
         </Form>
