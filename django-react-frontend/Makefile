@@ -13,7 +13,7 @@ build:
 	@read continue
 	rm -rf ./build
 	npm run build
-	docker build -t $(ORGANIZATION)/django-react-frontend:$(VERSION) -f ./Dockerfile .
+	docker build --no-cache -t $(ORGANIZATION)/django-react-frontend:$(VERSION) -f ./Dockerfile .
 	docker tag $(ORGANIZATION)/django-react-frontend:$(VERSION) $(ORGANIZATION)/django-react-frontend:latest
 
 publish:
