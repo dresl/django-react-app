@@ -9,7 +9,7 @@ help:
 all: build publish
 
 build:
-	@echo "Have you exported REACT_APP_API_URL variable? Pres any key to continue..."
+	@echo "Have you exported REACT_APP_API_URL and REACT_APP_WEBSOCKET_URL variable? Then press enter..."
 	@read continue
 	rm -rf ./build
 	npm run build

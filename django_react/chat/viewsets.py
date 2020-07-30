@@ -44,7 +44,7 @@ class ChatGroupViewSet(viewsets.ViewSet):
             res = [{
                 "id": msg.id,
                 "text": msg.text,
-                "type": "text",
+                "type": msg.msg_type,
                 "date": msg.date,
                 "username": msg.user.username,
                 "user": msg.user.get_full_name(),
@@ -74,7 +74,10 @@ class ChatGroupViewSet(viewsets.ViewSet):
                 'name': group.name,
                 'id': group.id,
                 'users': [{ "name": user.get_full_name(), "username": user.username } for user in group.users.all()],
-                'current-user': request.user.username
+                'current-user': {
+                    'username': request.user.username,
+                    'name': request.user.get_full_name()
+                }
             })
         return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
