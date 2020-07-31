@@ -1,6 +1,7 @@
 # Django React app
 
 - django, Rest API, webpack (craco), web sockets, react, AntDesign, ...
+- demo: https://django-react.resldominik.cz/
 
 ## Installation
 
