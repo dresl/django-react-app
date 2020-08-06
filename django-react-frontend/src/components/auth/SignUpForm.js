@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Input, Form, Alert } from "antd"
-import { fetchJson } from '../../utils';
+import { fetchJson } from '../../utils'
+import { PasswordInput } from 'antd-password-input-strength'
 
 const formItemLayout = {
   labelCol: {
@@ -114,7 +115,7 @@ class SignUpForm extends React.Component {
             <Input />
           </Form.Item>
           <Form.Item label='Password' name='password' rules={formItemRules} hasFeedback>
-            <Input.Password/>
+            <PasswordInput inputProps={{}}/>
           </Form.Item>
           <Form.Item label='Password confirmation' name='password_confirm'
               dependencies={['password']}
