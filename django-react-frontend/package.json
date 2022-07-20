@@ -10,7 +10,7 @@
     "@testing-library/user-event": "^7.2.1",
     "antd": "^4.4.2",
     "antd-password-input-strength": "^1.1.1",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "mousetrap": "^1.6.5",
     "sass": "^1.53.0",
     "react": "^16.13.1",
