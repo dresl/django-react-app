@@ -8,7 +8,7 @@ help:
 all: build publish
 
 run:
-	. venv/bin/activate && ./venv/bin/python manage.py runserver
+	. venv/bin/activate && ./venv/bin/python manage.py runserver localhost:8000
 
 build_assets:
 	rm assets/assets/*
